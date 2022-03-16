@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="site.fsyj.monitor.mapper.JobMapper">
+  <resultMap id="BaseResultMap" type="site.fsyj.monitor.bean.Job">
+    <!--@mbg.generated-->
+    <!--@Table t_job-->
+    <id column="id" property="id" />
+    <result column="area_id" property="areaId" />
+    <result column="build_id" property="buildId" />
+    <result column="project_id" property="projectId" />
+    <result column="room_id" property="roomId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, area_id, build_id, project_id, room_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from t_job
+    where id = #{id}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    <!--@mbg.generated-->
+    delete from t_job
+    where id = #{id}
+  </delete>
+  <insert id="insert" parameterType="site.fsyj.monitor.bean.Job">
+    <!--@mbg.generated-->
+    insert into t_job (id, area_id, build_id, project_id, room_id)
+    values (#{id}, #{areaId}, #{buildId}, #{projectId}, #{roomId})
+  </insert>
+  <insert id="insertSelective" parameterType="site.fsyj.monitor.bean.Job">
+    <!--@mbg.generated-->
+    insert into t_job
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="areaId != null">
+        area_id,
+      </if>
+      <if test="buildId != null">
+        build_id,
+      </if>
+      <if test="projectId != null">
+        project_id,
+      </if>
+      <if test="roomId != null">
+        room_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id},
+      </if>
+      <if test="areaId != null">
+        #{areaId},
+      </if>
+      <if test="buildId != null">
+        #{buildId},
+      </if>
+      <if test="projectId != null">
+        #{projectId},
+      </if>
+      <if test="roomId != null">
+        #{roomId},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="site.fsyj.monitor.bean.Job">
+    <!--@mbg.generated-->
+    update t_job
+    <set>
+      <if test="areaId != null">
+        area_id = #{areaId},
+      </if>
+      <if test="buildId != null">
+        build_id = #{buildId},
+      </if>
+      <if test="projectId != null">
+        project_id = #{projectId},
+      </if>
+      <if test="roomId != null">
+        room_id = #{roomId},
+      </if>
+    </set>
+    where id = #{id}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="site.fsyj.monitor.bean.Job">
+    <!--@mbg.generated-->
+    update t_job
+    set area_id = #{areaId},
+      build_id = #{buildId},
+      project_id = #{projectId},
+      room_id = #{roomId}
+    where id = #{id}
+  </update>
+</mapper>
