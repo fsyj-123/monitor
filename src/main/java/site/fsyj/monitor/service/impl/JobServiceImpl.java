@@ -2,7 +2,7 @@ package site.fsyj.monitor.service.impl;
 
 import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
-import site.fsyj.monitor.bean.Job;
+import site.fsyj.monitor.bean.MonitorJob;
 import site.fsyj.monitor.mapper.JobMapper;
 import site.fsyj.monitor.service.JobService;
 
@@ -18,29 +18,30 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    public int insert(Job record) {
+    public int insert(MonitorJob record) {
         return jobMapper.insert(record);
     }
 
     @Override
-    public int insertSelective(Job record) {
+    public int insertSelective(MonitorJob record) {
         return jobMapper.insertSelective(record);
     }
 
     @Override
-    public Job selectByPrimaryKey(String id) {
+    public MonitorJob selectByPrimaryKey(String id) {
         return jobMapper.selectByPrimaryKey(id);
     }
 
     @Override
-    public int updateByPrimaryKeySelective(Job record) {
+    public int updateByPrimaryKeySelective(MonitorJob record) {
         return jobMapper.updateByPrimaryKeySelective(record);
     }
 
     @Override
-    public int updateByPrimaryKey(Job record) {
+    public int updateByPrimaryKey(MonitorJob record) {
         return jobMapper.updateByPrimaryKey(record);
     }
 
 }
+
 

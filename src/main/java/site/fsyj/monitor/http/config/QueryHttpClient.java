@@ -11,9 +11,8 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 public class QueryHttpClient {
-
     @Bean
-    public HttpClient queryHttpClient() {
+    public HttpClient queryClient() {
         return HttpClients.custom().addRequestInterceptorLast(new RequestContent(true)).build();
     }
 }

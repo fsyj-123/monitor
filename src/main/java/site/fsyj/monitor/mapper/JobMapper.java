@@ -1,7 +1,8 @@
 package site.fsyj.monitor.mapper;
-
 import org.apache.ibatis.annotations.Mapper;
-import site.fsyj.monitor.bean.Job;
+import site.fsyj.monitor.bean.MonitorJob;
+
+import java.util.List;
 
 @Mapper
 public interface JobMapper {
@@ -19,7 +20,7 @@ public interface JobMapper {
      * @param record the record
      * @return insert count
      */
-    int insert(Job record);
+    int insert(MonitorJob record);
 
     /**
      * insert record to table selective
@@ -27,7 +28,7 @@ public interface JobMapper {
      * @param record the record
      * @return insert count
      */
-    int insertSelective(Job record);
+    int insertSelective(MonitorJob record);
 
     /**
      * select by primary key
@@ -35,7 +36,7 @@ public interface JobMapper {
      * @param id primary key
      * @return object by primary key
      */
-    Job selectByPrimaryKey(String id);
+    MonitorJob selectByPrimaryKey(String id);
 
     /**
      * update record selective
@@ -43,7 +44,7 @@ public interface JobMapper {
      * @param record the updated record
      * @return update count
      */
-    int updateByPrimaryKeySelective(Job record);
+    int updateByPrimaryKeySelective(MonitorJob record);
 
     /**
      * update record
@@ -51,5 +52,14 @@ public interface JobMapper {
      * @param record the updated record
      * @return update count
      */
-    int updateByPrimaryKey(Job record);
+    int updateByPrimaryKey(MonitorJob record);
+
+    /**
+     * 查询所有开启的任务
+     * @return
+     */
+    List<MonitorJob> selectAllByEnable();
+
+
+
 }

@@ -9,6 +9,7 @@ public class HeaderConfig {
     public final static String ACCEPT = "application/json, text/plain, */*";
     public final static String USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36 Edg/99.0.1150.39";
     public final static String CONTENT_TYPE = "application/json";
+    public final static String QUERY_WEBSITE = "http://paym.cdut.edu.cn/api/pay/web/payEleCostController/querySydl";
 
     private static String X_TOKEN;
     private static String COOKIE;
