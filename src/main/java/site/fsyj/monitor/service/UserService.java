@@ -16,4 +16,19 @@ public interface UserService{
 
     int updateByPrimaryKey(User record);
 
+    /**
+     * 用户登录接口
+     * @param username
+     * @param password
+     * @return
+     */
+    User regUser(String username, String password);
+
+    /**
+     * 用户登录
+     * @param username
+     * @param password
+     * @return
+     */
+    User loginUser(String username, String password);
 }

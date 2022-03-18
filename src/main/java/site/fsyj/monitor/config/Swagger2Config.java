@@ -19,7 +19,7 @@ public class Swagger2Config {
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
-                .enable(false)
+                .enable(true)
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("site.fsyj.monitor.controller"))
                 .build()

@@ -5,9 +5,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 
-@MapperScan("site.fsyj.monitor.mapper")
-@ConfigurationPropertiesScan(basePackages = {"site.fsyj.monitor.config"})
 @SpringBootApplication
+@MapperScan("site.fsyj.monitor.mapper")
+@ConfigurationPropertiesScan(basePackages = {"site.fsyj.monitor.config", "site.fsyj.monitor.http.config"})
 public class MonitorApplication {
 
     public static void main(String[] args) {
