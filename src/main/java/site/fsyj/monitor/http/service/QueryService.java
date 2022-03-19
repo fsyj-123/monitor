@@ -5,28 +5,35 @@ import org.apache.hc.client5.http.classic.HttpClient;
 import org.apache.hc.client5.http.classic.methods.HttpPost;
 import org.apache.hc.client5.http.impl.classic.BasicHttpClientResponseHandler;
 import org.apache.hc.core5.http.io.entity.StringEntity;
-import org.quartz.Job;
-import org.quartz.JobExecutionContext;
-import org.quartz.JobExecutionException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import site.fsyj.monitor.bean.LoginUser;
 import site.fsyj.monitor.bean.MonitorJob;
 import site.fsyj.monitor.config.HeaderConfig;
 import site.fsyj.monitor.mapper.JobMapper;
 import site.fsyj.monitor.util.JsonUtil;
+import site.fsyj.monitor.util.PushUtil;
 
 import javax.annotation.Resource;
 import java.io.IOException;
+import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * @author fsyj on 2022/3/15
  */
 @Slf4j
 @Service
-public class QueryService implements Job {
+public class QueryService implements Serializable {
+
+
+    private static final long serialVersionUID = -1108394074390494724L;
+    @Resource
+    private LoginService loginService;
 
     @Resource
     private JobMapper jobMapper;
@@ -35,22 +42,35 @@ public class QueryService implements Job {
     private HttpClient httpClient;
 
     @Autowired
+    private PushUtil pushUtil;
+
     private LoginUser loginUser;
 
-    @Override
-    public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
+
+    @Autowired
+    ApplicationContext applicationContext;
+
+    private ExecutorService service = Executors.newCachedThreadPool();
+
+    public void execute() {
+        loginService.login();
+        loginUser = applicationContext.getBean(LoginUser.class);
+
         List<MonitorJob> jobs = jobMapper.selectAllByEnable();
         for (MonitorJob job : jobs) {
+            System.out.println();
+            System.out.println(job);
+            System.out.println();
             // 如果该任务没有执行则执行
-            if (!job.getStatus()) {
-                HttpPost post = getQueryPost();
-                try {
-                    post.setEntity(new StringEntity(JsonUtil.mapToStr(job.getPostBody()), StandardCharsets.UTF_8));
-                    String response = httpClient.execute(post, new BasicHttpClientResponseHandler());
-                    log.info("剩余电量：{}", response);
-                } catch (IOException e) {
-                    log.error("IO异常：{}", e.getMessage());
-                }
+            HttpPost post = getQueryPost();
+            try {
+                post.setEntity(new StringEntity(JsonUtil.mapToStr(job.getPostBody()), StandardCharsets.UTF_8));
+                String response = httpClient.execute(post, new BasicHttpClientResponseHandler());
+                service.submit(() -> {
+                    pushUtil.push(response, job);
+                });
+            } catch (IOException e) {
+                log.error("IO异常：{}", e.getMessage());
             }
         }
     }

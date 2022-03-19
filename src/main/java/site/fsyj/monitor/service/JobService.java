@@ -1,6 +1,7 @@
 package site.fsyj.monitor.service;
 
 import site.fsyj.monitor.bean.MonitorJob;
+import site.fsyj.monitor.bean.User;
 
 public interface JobService {
 
@@ -17,6 +18,8 @@ public interface JobService {
 
     int updateByPrimaryKey(MonitorJob record);
 
+    MonitorJob selectByUser(User loginUser);
 }
+
 
 

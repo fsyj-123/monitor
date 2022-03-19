@@ -2,78 +2,18 @@ layui.use(['element','layer'], function() {
     var element = layui.element;
     var layer = layui.layer;
 
-    showUserBilibiliInfo();
-    showUserNetmusicInfo();
-    showUserMiyousheInfo();
+    // TODO 通过查询任务列表是否拥有，用于判断是否需要增加
+    $.ajax({
+        url:
+    })
 
-    $("#addBilibiliTask").click(function (){
-        addTask("bili");
-    })
-    $("#addMiyousheTask").click(function (){
-        addTask("mihuyou");
-    })
-    $("#addNetmusicTask").click(function (){
-        addTask("netmusic");
+    $("#addTask").click(function (){
+        addTask();
     })
 
 })
 
-function showUserBilibiliInfo() {
-    $.ajax({
-        url: "/api/user/bili/list",
-        async: false,//关键是这个参数 是否异步请求=>false:使用同步请求
-        type: "POST",
-        success: function (result) {
-            if (result.code === 200) {
-                var _html = bilibiliHtml(result.data);
-                $("#bilibiliShow").html(_html);
-            } else {
-                layer.msg("获取哔哩哔哩任务失败");
-            }
-        },
-        error: function () {
-            layer.msg("获取哔哩哔哩任务失败");
-        }
-    })
-}
 
-function showUserNetmusicInfo() {
-    $.ajax({
-        url: "/api/user/netmusic/list",
-        async: false,//关键是这个参数 是否异步请求=>false:使用同步请求
-        type: "POST",
-        success: function (result) {
-            if (result.code === 200) {
-                var _html = netmusicHtml(result.data);
-                $("#netmusicShow").html(_html);
-            } else {
-                layer.msg("获取网易云任务失败");
-            }
-        },
-        error: function () {
-            layer.msg("获取网易云任务失败");
-        }
-    })
-}
-
-function showUserMiyousheInfo() {
-    $.ajax({
-        url: "/api/user/mihuyou/list",
-        async: false,//关键是这个参数 是否异步请求=>false:使用同步请求
-        type: "POST",
-        success: function (result) {
-            if (result.code === 200) {
-                var _html = miyousheHtml(result.data);
-                $("#miyousheShow").html(_html);
-            } else {
-                layer.msg("获取米游社任务失败");
-            }
-        },
-        error: function () {
-            layer.msg("获取米游社任务失败");
-        }
-    })
-}
 
 function openLog(type, id) {
     var boxSize = '600px';
@@ -93,25 +33,7 @@ function openLog(type, id) {
     });
 }
 
-function runTask(name, id) {
-    layer.confirm('确定要手动运行一次' + name + '任务？', {icon: 3, title: '提示'}, function (index) {
-        layer.close(index);
-        let loading = layer.load();
-        $.ajax({
-            url: "/api/user/" + name + "/run?id=" + id,
-            type: 'post',
-            success: function (result) {
-                layer.close(loading);
-                if (result.code == 200) {
-                    parent.layer.msg(result.msg);
-                    updateHtml(name);
-                } else {
-                    parent.layer.msg(result.msg);
-                }
-            }
-        })
-    });
-}
+
 
 function editTask(name, id) {
     layer.open({
@@ -127,7 +49,8 @@ function editTask(name, id) {
     });
 }
 
-function addTask(name) {
+function addTask() {
+    let name = "监控"
     layer.open({
         type: 2,
         title: '添加' + name + '任务',

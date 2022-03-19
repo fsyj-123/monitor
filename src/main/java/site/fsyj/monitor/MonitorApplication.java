@@ -11,7 +11,11 @@ import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 public class MonitorApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(MonitorApplication.class, args);
+        try {
+            SpringApplication.run(MonitorApplication.class, args);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

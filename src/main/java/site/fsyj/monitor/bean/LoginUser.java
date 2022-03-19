@@ -1,15 +1,15 @@
 package site.fsyj.monitor.bean;
 
 import lombok.Getter;
-import org.springframework.stereotype.Component;
+import lombok.ToString;
 import org.springframework.util.StringUtils;
 
 /**
  * 用于处理登录后的cookie字段
  * @author fsyj on 2022/3/16
  */
+@ToString
 @Getter
-@Component
 public class LoginUser {
     private String cookie;
 
@@ -29,5 +29,10 @@ public class LoginUser {
                 }
             }
         }
+    }
+
+    public LoginUser(String token) {
+        xToken = token;
+        cookie = "datalook_reimbursement_token=" + token + "; datalook_login_status=false";
     }
 }

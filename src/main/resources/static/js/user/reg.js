@@ -1,6 +1,6 @@
-$(document).ready(function() {
+$(document).ready(function () {
 
-    if (top != window){
+    if (top != window) {
         top.location.href = window.location.href;
     }
 
@@ -18,72 +18,68 @@ $(document).ready(function() {
     });
 
     //点击刷新验证码
-    $("#showImageCode").click(function (){
+    $("#showImageCode").click(function () {
         updateImageCode();
     })
 });
 
 //回车注册
-$(document).keydown(function(e){
-    if(e.keyCode == 13) {
+$(document).keydown(function (e) {
+    if (e.keyCode == 13) {
         submitform();
     }
 });
 
 //验证码刷新函数
-function updateImageCode(){
+function updateImageCode() {
     $("#imageCode").val('');
     var captcha = document.getElementById("showImageCode");
-    captcha.src ='/code/image?'+Math.random()
+    captcha.src = '/code/image?' + Math.random()
 }
 
-function showErrorMessage(text){
+function showErrorMessage(text) {
     $("#text").text(text);
 }
 
-function submitform(){
+function submitform() {
     $("#text").text("");
-    if($("#username").val() == ""){
+    if ($("#username").val() == "") {
         showErrorMessage("请输入用户名！");
         return false;
     }
-    if($("#password").val() == ""){
+    if ($("#password").val() == "") {
         showErrorMessage("请输入密码！");
         return false;
     }
-    if($("#repass").val() == ""){
+    if ($("#repass").val() == "") {
         showErrorMessage("请输入确认密码！");
         return false;
     }
-    if($("#imageCode").val() == ""){
+    if ($("#imageCode").val() == "") {
         showErrorMessage("请输入验证码！");
         return false;
     }
 
     setTimeout(function () {
         $.ajax({
-            async : false,
-            cache : false,
-            type : 'POST',
-            url : '/reg',
-            data : {
+            async: false,
+            cache: false,
+            type: 'POST',
+            url: '/user/reg',
+            data: {
                 'username': $("#username").val(),
                 'password': $("#password").val(),
                 'imageCode': $("#imageCode").val()
             },
-            error : function(d) {
+            error: function (d) {
+                console.log(d)
                 $("#maskDiv").hide();
-                showErrorMessage(d.responseJSON.msg);
+                showErrorMessage(d.responseText);
                 updateImageCode();
             },
-            success : function(d) {
-                if (d.code == 200) {
-                    alert("注册成功，请登录");
-                    window.location.href = "/login";
-                }else{
-                    showErrorMessage(d.msg);
-                    updateImageCode();
-                }
+            success: function (d) {
+                alert("注册成功，请登录");
+                window.location.href = "/login";
             }
         });
     }, 500);

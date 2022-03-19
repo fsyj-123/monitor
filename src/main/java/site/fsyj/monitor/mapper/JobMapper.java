@@ -1,4 +1,5 @@
 package site.fsyj.monitor.mapper;
+
 import org.apache.ibatis.annotations.Mapper;
 import site.fsyj.monitor.bean.MonitorJob;
 
@@ -56,10 +57,8 @@ public interface JobMapper {
 
     /**
      * 查询所有开启的任务
+     *
      * @return
      */
     List<MonitorJob> selectAllByEnable();
-
-
-
 }

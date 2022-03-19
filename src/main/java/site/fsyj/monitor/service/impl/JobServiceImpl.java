@@ -1,10 +1,12 @@
 package site.fsyj.monitor.service.impl;
 
 import org.springframework.stereotype.Service;
-import javax.annotation.Resource;
 import site.fsyj.monitor.bean.MonitorJob;
+import site.fsyj.monitor.bean.User;
 import site.fsyj.monitor.mapper.JobMapper;
 import site.fsyj.monitor.service.JobService;
+
+import javax.annotation.Resource;
 
 @Service
 public class JobServiceImpl implements JobService {
@@ -42,6 +44,12 @@ public class JobServiceImpl implements JobService {
         return jobMapper.updateByPrimaryKey(record);
     }
 
+    @Override
+    public MonitorJob selectByUser(User loginUser) {
+        return jobMapper.selectByPrimaryKey(loginUser.getJobId());
+    }
+
 }
+
 
 

@@ -1,6 +1,6 @@
-$(document).ready(function() {
+$(document).ready(function () {
 
-    if (top != window){
+    if (top != window) {
         top.location.href = window.location.href;
     }
 
@@ -18,40 +18,40 @@ $(document).ready(function() {
     });
 
     //点击刷新验证码
-    $("#showImageCode").click(function (){
+    $("#showImageCode").click(function () {
         updateImageCode();
     })
 });
 
 //回车登录
-$(document).keydown(function(e){
-    if(e.keyCode == 13) {
+$(document).keydown(function (e) {
+    if (e.keyCode == 13) {
         submitform();
     }
 });
 
 //验证码刷新函数
-function updateImageCode(){
+function updateImageCode() {
     $("#imageCode").val('');
     var captcha = document.getElementById("showImageCode");
-    captcha.src ='/code/image?'+Math.random()
+    captcha.src = '/code/image?' + Math.random()
 }
 
-function showErrorMessage(text){
+function showErrorMessage(text) {
     $("#text").text(text);
 }
 
-function submitform(){
+function submitform() {
     $("#text").text("");
-    if($("#username").val() == ""){
+    if ($("#username").val() == "") {
         showErrorMessage("请输入用户名！");
         return false;
     }
-    if($("#password").val() == ""){
+    if ($("#password").val() == "") {
         showErrorMessage("请输入密码！");
         return false;
     }
-    if($("#imageCode").val() == ""){
+    if ($("#imageCode").val() == "") {
         showErrorMessage("请输入验证码！");
         return false;
     }
@@ -60,28 +60,22 @@ function submitform(){
 
     setTimeout(function () {
         $.ajax({
-            async : false,
-            cache : false,
-            type : 'POST',
-            url : '/login',
-            data : {
+            async: false,
+            cache: false,
+            type: 'POST',
+            url: '/user/login',
+            data: {
                 'username': $("#username").val(),
                 'password': $("#password").val(),
                 'imageCode': $("#imageCode").val()
             },
-            error : function(d) {
+            error: function (d) {
                 $("#maskDiv").hide();
-                showErrorMessage(d.responseJSON.msg);
+                showErrorMessage(d.responseText);
                 updateImageCode();
             },
-            success : function(d) {
-                $("#maskDiv").hide();
-                if (d.code == 200) {
-                    window.location.href = "/";
-                }else{
-                    showErrorMessage(d.msg);
-                    updateImageCode();
-                }
+            success: function (d) {
+                window.location.href = "/";
             }
         });
     }, 500);

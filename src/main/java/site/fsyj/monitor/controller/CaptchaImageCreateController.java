@@ -2,8 +2,6 @@ package site.fsyj.monitor.controller;
 
 import com.google.code.kaptcha.Constants;
 import com.google.code.kaptcha.Producer;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 
-@Api("验证码")
 @Controller
 @RequestMapping("/code")
 public class CaptchaImageCreateController {
@@ -27,7 +24,6 @@ public class CaptchaImageCreateController {
         this.captchaProducer = captchaProducer;
     }
 
-    @ApiOperation("获取验证码图片")
     @GetMapping("/image")
     public ModelAndView handleRequest(
             HttpServletRequest request,
