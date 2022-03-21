@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import site.fsyj.monitor.bean.MonitorJob;
 import site.fsyj.monitor.bean.User;
 import site.fsyj.monitor.mapper.JobMapper;
+import site.fsyj.monitor.mapper.UserMapper;
 import site.fsyj.monitor.service.JobService;
 
 import javax.annotation.Resource;
@@ -13,6 +14,9 @@ public class JobServiceImpl implements JobService {
 
     @Resource
     private JobMapper jobMapper;
+
+    @Resource
+    private UserMapper userMapper;
 
     @Override
     public int deleteByPrimaryKey(String id) {
@@ -49,7 +53,16 @@ public class JobServiceImpl implements JobService {
         return jobMapper.selectByPrimaryKey(loginUser.getJobId());
     }
 
+    @Override
+    public MonitorJob addTask(User loginUser, MonitorJob job) {
+        insert(job);
+        loginUser.setJobId(job.getId());
+        userMapper.updateByPrimaryKey(loginUser);
+        return job;
+    }
+
 }
+
 
 
 

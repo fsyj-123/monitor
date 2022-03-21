@@ -19,7 +19,10 @@ public interface JobService {
     int updateByPrimaryKey(MonitorJob record);
 
     MonitorJob selectByUser(User loginUser);
+
+    MonitorJob addTask(User loginUser, MonitorJob job);
 }
+
 
 
 

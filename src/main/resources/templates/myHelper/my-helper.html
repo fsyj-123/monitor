@@ -1,47 +1,117 @@
 <!DOCTYPE html>
 <html
         xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <meta content="text/html;charset=UTF-8"/>
-        <meta name="referrer" content="no-referrer" />
-        <title>我的任务列表</title>
-        <th:block th:include="include :: headerCss"/>
-        <link rel="stylesheet" href="/static/css/myHelper.css" media="all">
-        </style>
-    </head>
-    <body>
+<head>
+    <meta content="text/html;charset=UTF-8"/>
+    <meta name="referrer" content="no-referrer"/>
+    <title>我的任务列表</title>
+    <th:block th:include="include :: headerCss"/>
+    <link rel="stylesheet" href="/static/css/myHelper.css" media="all">
 
-        <div class="layui-fluid">
-            <div class="admin-layui-form">
-                <div class="layui-row ">
-                    <div class="layui-col-md12 div-row">
-                        <button class="layui-btn" id="addTask">
-                            <i class="layui-icon searchIcon"></i>添加任务
-                        </button>
-                        <!--<button class="layui-btn netmusicBtn" id="addNetmusicTask">
-                            <i class="layui-icon searchIcon netmusicIcon"></i>添加任务
-                        </button>
-                        <button class="layui-btn miyousheBtn" id="addMiyousheTask">
-                            <i class="layui-icon searchIcon miyousheIcon"></i>添加任务
-                        </button>-->
-                    </div>
+    <link href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
 
-                    <!--哔哩哔哩任务显示部分-->
-                    <div class="layui-col-md12 div-row" id="bilibiliShow"></div>
 
-                    <!--&lt;!&ndash;网易云任务显示部分&ndash;&gt;
-                    <div class="layui-col-md12 div-row" id="netmusicShow"></div>
+    <script src="/static/js/jquery.min.3.6.0.js"></script>
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
 
-                    &lt;!&ndash;米游社任务显示部分&ndash;&gt;
-                    <div class="layui-col-md12 div-row" id="miyousheShow"></div>-->
-                </div>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+
+<div class="layui-fluid">
+    <div class="admin-layui-form">
+        <div class="layui-row ">
+            <div class="layui-col-md12 div-row">
+                <button class="layui-btn" id="addTask">
+                    <i class="layui-icon searchIcon"></i>添加任务
+                </button>
             </div>
 
+            <!--任务显示部分-->
+            <div class="layui-col-md12 div-row" id="taskShow">
+
+            </div>
+
+            <div id="addTaskForm" style="display: none">
+                <form class="layui-form">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">园区：</label>
+                        <div class="layui-input-inline">
+                            <select name="areaSelect" lay-filter="one_cate">
+                                <option value="">请选择</option>
+                                <option value='509561253f374fa6a15e366fa412db7e' areaId='1'
+                                        projectid='bb62312911b282f57d03568c998776e2'>珙桐
+                                </option>
+                                <option value='9172ebf5c360494fa606383aa3d978ac' areaId='2'
+                                        projectid='2595a1f7c8cf17410c85f9e05f9cc7c3'>芙蓉
+                                </option>
+                                <option value='aaa90c263b694c69ad0e0433c75140ad' areaId='3'
+                                        projectid='2595a1f7c8cf17410c85f9e05f9cc7c3'>银杏
+                                </option>
+                                <option value='b9ef914ab475470382b43468baa7f6b5' areaId='4'
+                                        projectid='2595a1f7c8cf17410c85f9e05f9cc7c3'>香樟
+                                </option>
+                                <option value='c6fe3feec524437085b166ba88344c47' areaId='5'
+                                        projectid='2595a1f7c8cf17410c85f9e05f9cc7c3'>松林
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">楼栋：</label>
+                        <div class="layui-input-inline">
+                            <select name="buildSelect" lay-filter="two_cate" id="two_cate">
+
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">寝室：</label>
+                        <div class="layui-input-inline">
+                            <select name="roomSelect" lay-filter="three_cate" id="three_cate">
+
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">实时监控</label>
+                        <div class="layui-input-inline">
+                            <input type="radio" name="status" value="true" title="开">
+                            <input type="radio" name="status" value="false" title="关" checked>
+                        </div>
+                        <p>开启实时监控将在每次系统查询电量后都发送结果到邮箱</p>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <input id="taskName" value="" placeholder="请输入任务名，如：银杏1-999寝室电量">
+                    </div>
+                    <div class="layui-form-item">
+                        <input value="" placeholder="寝室当前电量" id="restOddl" disabled="disabled">
+                    </div>
+
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">结果邮箱</label>
+                        <div class="layui-input-inline">
+                            <div class="layui-input-block">
+                                <input type="text" id="email" placeholder="输入邮箱"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <button class="layui-btn" type="button" id="submitTask">提交任务</button>
+                    </div>
+                </form>
+            </div>
 
         </div>
+    </div>
+</div>
 
-        <th:block th:include="include :: footerJs"/>
-        <script src="/static/js/myHelper.js?v=2"></script>
-    </body>
+<th:block th:include="include :: footerJs"/>
+<script src="/static/js/myHelper.js?v=2"></script>
+</body>
 
 </html>

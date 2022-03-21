@@ -12,6 +12,7 @@ import site.fsyj.monitor.bean.LoginUser;
 import site.fsyj.monitor.bean.MonitorJob;
 import site.fsyj.monitor.config.HeaderConfig;
 import site.fsyj.monitor.mapper.JobMapper;
+import site.fsyj.monitor.util.ElectricResponseUtil;
 import site.fsyj.monitor.util.JsonUtil;
 import site.fsyj.monitor.util.PushUtil;
 
@@ -38,8 +39,8 @@ public class QueryService implements Serializable {
     @Resource
     private JobMapper jobMapper;
 
-    @Autowired
-    private HttpClient httpClient;
+    @Resource
+    private HttpClient queryClient;
 
     @Autowired
     private PushUtil pushUtil;
@@ -53,19 +54,15 @@ public class QueryService implements Serializable {
     private ExecutorService service = Executors.newCachedThreadPool();
 
     public void execute() {
-        loginService.login();
-        loginUser = applicationContext.getBean(LoginUser.class);
+        loginUser = loginService.getLoginUser();
 
         List<MonitorJob> jobs = jobMapper.selectAllByEnable();
         for (MonitorJob job : jobs) {
-            System.out.println();
-            System.out.println(job);
-            System.out.println();
             // 如果该任务没有执行则执行
             HttpPost post = getQueryPost();
             try {
                 post.setEntity(new StringEntity(JsonUtil.mapToStr(job.getPostBody()), StandardCharsets.UTF_8));
-                String response = httpClient.execute(post, new BasicHttpClientResponseHandler());
+                String response = queryClient.execute(post, new BasicHttpClientResponseHandler());
                 service.submit(() -> {
                     pushUtil.push(response, job);
                 });
@@ -75,7 +72,25 @@ public class QueryService implements Serializable {
         }
     }
 
-    private HttpPost getQueryPost() {
+    public String executeOnce(MonitorJob monitorJob) {
+        loginUser = loginService.getLoginUser();
+        String restElect = null;
+        HttpPost post = getQueryPost();
+        try {
+            post.setEntity(new StringEntity(JsonUtil.mapToStr(monitorJob.getPostBody()), StandardCharsets.UTF_8));
+
+            String resp = queryClient.execute(post, new BasicHttpClientResponseHandler());
+            int rest = ElectricResponseUtil.getRestElectric(resp);
+            restElect = String.valueOf(rest);
+        } catch (IOException e) {
+            log.error("IO异常：{}", e.getMessage());
+        }
+        return restElect;
+    }
+
+
+
+    public HttpPost getQueryPost() {
         HttpPost post = new HttpPost(HeaderConfig.QUERY_WEBSITE);
         post.addHeader("Host", HeaderConfig.HOST);
         post.setHeader("Content-Length", HeaderConfig.CONTENT_LENGTH);

@@ -18,7 +18,6 @@ public class SelfTask implements Job {
 
     @Override
     public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
-        System.out.println("queryService：" + (queryService != null));
         queryService.execute();
     }
 }

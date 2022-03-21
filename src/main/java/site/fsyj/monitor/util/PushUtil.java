@@ -31,6 +31,6 @@ public class PushUtil {
     }
 
     private void doPush(MonitorJob job, int electric) {
-        mailServiceImpl.sendSimpleMail(job.getWebhook(), "电量提醒", ("你的剩余电量：" + electric));
+        mailServiceImpl.sendSimpleMail(job.getWebhook(), "电量提醒", ("任务：" + job.getName() + ",你的剩余电量：" + electric));
     }
 }

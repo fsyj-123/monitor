@@ -16,20 +16,21 @@ import site.fsyj.monitor.util.CronUtils;
 public class AppConfig {
 
 
+    private Long loginInterval;
 
-    private String defaultCron = "0 0 0,13 * * ?";
+    public final static String DEFAULT_CRON = "0 0 0,13 * * ?";
 
     /**
      * 查询的cron表达式
      */
-    private String cron;
+    private String cron = DEFAULT_CRON;
 
     public void setCron(String cron) {
         if (CronUtils.isValid(cron)) {
             this.cron = cron;
         } else {
             log.warn("cron表达式不合理，使用默认表达式");
-            this.cron = defaultCron;
+            this.cron = DEFAULT_CRON;
         }
     }
 }
