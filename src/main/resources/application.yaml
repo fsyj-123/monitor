@@ -1,0 +1,32 @@
+server:
+  servlet:
+    context-path:
+  port: 8081
+spring:
+  mail:
+    username: xxx@163.com
+    host: smtp.163.com
+    password: GBHNMYCSJXYDQRAX
+    port: 25
+  datasource:
+    username: xxx
+    password: xxx
+    url: jdbc:mysql://localhost:3306/monitor?useSSL=true&useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  mvc:
+    static-path-pattern: /static/**
+
+#需要登录到砚湖易办的账号密码
+user:
+  user-name: xxx
+  password: xxx
+
+mybatis:
+  mapper-locations: classpath:mybatis/mapper/*.xml
+  type-aliases-package: site.fsyj.monitor.bean
+  config-location: classpath:mybatis/mybatis-config.xml
+
+logging:
+  config: classpath:logback/logback-spring.xml
+app:
+  login-interval: 60000

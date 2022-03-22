@@ -13,7 +13,9 @@ import site.fsyj.monitor.util.IDUtils;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 
 /**
  * @author fsyj on 2022/3/19
@@ -30,7 +32,7 @@ public class TaskController {
 
     @PostMapping("/add")
     public ResponseEntity<String> add(HttpServletRequest request, String areaid, String buildid, String projectId,
-                                      String roomid, String name, Boolean status, String email) {
+                                      String roomid, String name, Boolean status, String email, HttpServletResponse response) throws IOException {
         User loginUser = (User) request.getSession().getAttribute("loginUser");
         if (loginUser == null) {
             return ResponseEntity.badRequest().body(null);
@@ -38,6 +40,7 @@ public class TaskController {
             MonitorJob job = new MonitorJob(IDUtils.getUUID(), name, areaid, buildid, projectId, roomid, true, status, email);
             System.out.println(job);
             jobServiceImpl.addTask(loginUser, job);
+            response.sendRedirect("/");
             return ResponseEntity.ok("添加成功，请刷新页面");
         }
     }

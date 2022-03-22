@@ -10,7 +10,7 @@
     </parent>
     <groupId>site.fsyj</groupId>
     <artifactId>monitor</artifactId>
-    <version>2.0.0-SNAPSHOT</version>
+    <version>2.0.0-Alpha</version>
     <name>monitor</name>
     <description>监控成都理工大学寝室电量</description>
     <properties>

@@ -1,15 +1,18 @@
 package site.fsyj.monitor.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+@Slf4j
 @Controller
 public class PageController {
 
     /**
      * 首页
+     *
      * @return ModelAndView
      */
     @RequestMapping("/")
@@ -19,6 +22,7 @@ public class PageController {
 
     /**
      * 欢迎页
+     *
      * @return ModelAndView
      */
     @RequestMapping("/welcomePage")
@@ -28,6 +32,7 @@ public class PageController {
 
     /**
      * 公告编辑页
+     *
      * @return ModelAndView
      */
     @RequestMapping("/system-notice-edit")
@@ -37,6 +42,7 @@ public class PageController {
 
     /**
      * 登录页
+     *
      * @return ModelAndView
      */
     @GetMapping("/login")
@@ -46,6 +52,7 @@ public class PageController {
 
     /**
      * 注册页
+     *
      * @return ModelAndView
      */
     @GetMapping("/reg")
@@ -55,6 +62,7 @@ public class PageController {
 
     /**
      * 日志查看页
+     *
      * @return ModelAndView
      */
     @GetMapping("/getlog")
@@ -64,6 +72,7 @@ public class PageController {
 
     /**
      * 我的任务页
+     *
      * @return ModelAndView
      */
     @GetMapping("/my")
@@ -73,6 +82,7 @@ public class PageController {
 
     /**
      * 全局推送配置页
+     *
      * @return ModelAndView
      */
     @GetMapping("/my-edit")
@@ -82,10 +92,11 @@ public class PageController {
 
     /**
      * 推送地址生成器页面
+     *
      * @return ModelAndView
      */
     @GetMapping("/webhook-generate")
-    public ModelAndView webhookGeneratePage(){
+    public ModelAndView webhookGeneratePage() {
         return new ModelAndView("myHelper/webhook-generate");
     }
 

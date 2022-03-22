@@ -1,6 +1,7 @@
 package site.fsyj.monitor.service.impl;
 
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import site.fsyj.monitor.bean.MonitorJob;
 import site.fsyj.monitor.bean.User;
 import site.fsyj.monitor.mapper.JobMapper;
@@ -55,12 +56,16 @@ public class JobServiceImpl implements JobService {
 
     @Override
     public MonitorJob addTask(User loginUser, MonitorJob job) {
+        // 首先判断当前用户是否已经添加过任务，如果添加过，则直接返回
+        User verifiedUser = userMapper.selectByPrimaryKey(loginUser.getId());
+        if (StringUtils.hasLength(verifiedUser.getJobId())) {
+            return null;
+        }
         insert(job);
         loginUser.setJobId(job.getId());
         userMapper.updateByPrimaryKey(loginUser);
         return job;
     }
-
 }
 
 
